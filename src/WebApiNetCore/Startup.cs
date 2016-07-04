@@ -12,6 +12,8 @@ namespace WebApiNetCore
 {
     public class Startup
     {
+        //The main task of the contructor is setting up configuration getting the name value pair  out of
+        // a different configuration sources like JSON files, XML files, enviromental variables, etc..
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -24,19 +26,22 @@ namespace WebApiNetCore
 
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
+            // Setting up all of the services that I want to be made available to my app via 
+            // dependency injection, in this example MVC is adding its services to the sevice collection
+            // and making them available to every one
             services.AddMvc();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method sets up the HTTP request pipeline for our app.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            
+            // We're using MVC middleware (MVC is built on top of generic routing middleware) and we just set up
+            // MVC as route handler for the route middleware
             app.UseMvc();
         }
     }
