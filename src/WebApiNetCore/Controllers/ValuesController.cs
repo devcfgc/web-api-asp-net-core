@@ -17,10 +17,10 @@ namespace WebApiNetCore.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public string Get(int id)
         {
-            return "value";
+            return $"value {id}";
         }
 
         // POST api/values
